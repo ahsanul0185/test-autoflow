@@ -1,27 +1,36 @@
-# Use an official Node.js runtime as a base image
-FROM node:18 AS base
+# Stage 1: Build frontend and backend
+FROM node:18 AS builder
 
-# Set working directory
 WORKDIR /app
 
-# Copy dependency files first for better caching
+# Copy dependency files
 COPY package*.json ./
 
-# Install only production dependencies (if your build script needs devDeps, remove --only=production)
+# Install all dependencies (needed for building frontend)
 RUN npm install
 
-# Copy all source code
+# Copy source code
 COPY . .
 
-# Build both frontend and backend
+# Build frontend
 RUN npm run build
 
-# Set environment variables
+# Stage 2: Production image
+FROM node:18 AS production
+
+WORKDIR /app
+
 ENV NODE_ENV=production
 ENV PORT=5000
 
-# Expose app port
+# Copy only the built output and needed files
+COPY package*.json ./
+RUN npm install --only=production
+
+# Copy built backend and frontend
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/client/dist ./client/dist
+
 EXPOSE 5000
 
-# Start the app
-CMD ["npm", "start"]
+CMD ["node", "dist/index.js"]
