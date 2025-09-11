@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "license": "MIT",
- "scripts": {
+  "scripts": {
     "dev": "cross-env NODE_ENV=development tsx server/index.ts",
     "build:client": "vite build",
     "build:server": "esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist --target=node18 --external:vite --external:@replit/vite-plugin-cartographer --external:@replit/vite-plugin-runtime-error-modal --external:../vite.config.js",
@@ -53,7 +53,7 @@
     "connect-pg-simple": "^10.0.0",
     "date-fns": "^3.6.0",
     "dotenv": "^17.2.2",
-    "drizzle-orm": "^0.39.1",
+    "drizzle-orm": "^0.39.3",
     "drizzle-zod": "^0.7.0",
     "embla-carousel-react": "^8.6.0",
     "express": "^4.21.2",
@@ -68,6 +68,7 @@
     "openid-client": "^6.7.1",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
+    "pg": "^8.16.3",
     "react": "^18.3.1",
     "react-day-picker": "^8.10.1",
     "react-dom": "^18.3.1",
